@@ -12,7 +12,9 @@ export default {
         headign: "#1e272e",
         content: "#485460",
       },
-  
+      boxShadow: {
+        "btnShadow": "2px 5px 20px rgba(0, 0, 0, 0.3)",
+      },
     },
   },
   plugins: [],

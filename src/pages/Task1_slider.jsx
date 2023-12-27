@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import Slider from 'react-slick'
 import Product from '../components/Product'
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { TfiAngleRight, TfiAngleLeft } from "react-icons/tfi";
 
 const Task1_slider = () => {
-
     const [products, setProducts] = useState([])
-
 
     //============ Loading Fake Products Here ===========//
     useEffect(() => {
         (async () => {
-            const res = await fetch("https://fakestoreapi.com/products?limit=8");
+            const res = await fetch("https://fakestoreapi.com/products?limit=20");
             if (res.ok) {
                 const products = await res.json();
                 setProducts(products)
@@ -20,28 +21,27 @@ const Task1_slider = () => {
             }
         })()
     }, [])
-    // console.log(products);
 
 
-    //====SLider Functions=====//
+
+    //========= SLider Functions ===========//
     function SamplePrevArrow({ onClick }) {
         return (
             <div
-                className='absolute bottom-0 left-5 z-10   p-2 px-5 sm:px-8 sm:p-4 sm:py-3 rounded-s-md bg-brand-blue flex items-center justify-center border-2 border-transparent cursor-pointer shadow-lg hover:bg-white/90 
-            hover:border-2 hover:border-brand-blue  duration-300 group sm:right-32  sm:left-auto'
+                className='absolute top-1/2 left-0 z-10  -translate-y-1/2 p-2 sm:p-4 rounded-full bg-whtie flex items-center justify-center cursor-pointer shadow-btnShadow hover:bg-brand duration-300 text-gray-400 hover:text-white '
                 onClick={onClick}
             >
-                <BsArrowLeft className='text-white text-xl sm:text-xl group-hover:text-brand-blue ' />
+                <TfiAngleLeft className='text-lg sm:text-2xl' />
             </div>
         )
     }
     function SampleNextArrow({ onClick }) {
         return (
             <div
-                className='absolute bottom-0 right-5 sm:right-2 px-5 sm:px-8 sm:py-3 z-10  p-2 sm:p-4 rounded-e-md bg-brand-blue flex items-center justify-center border-2 border-transparent cursor-pointer shadow-lg hover:bg-white/90 duration-300 group hover:border-brand-blue'
+                className='absolute top-1/2 right-0 z-10  -translate-y-1/2 p-2 sm:p-4 rounded-full bg-white flex items-center justify-center cursor-pointer shadow-btnShadow hover:bg-brand duration-300 text-gray-400 hover:text-white'
                 onClick={onClick}
             >
-                <BsArrowRight className='text-white text-xl sm:text-xl group-hover:text-brand-blue ' />
+                <TfiAngleRight className='text-lg sm:text-2xl' />
             </div>
         )
     }
@@ -51,44 +51,65 @@ const Task1_slider = () => {
         infinite: true,
         lazyLoad: false,
         speed: 400,
-        slidesToShow: 4,
-        slidesToScroll: 1,
+        slidesToShow: 2,
+        slidesToScroll: 2,
         nextArrow: <SampleNextArrow to="next" />,
         prevArrow: <SamplePrevArrow to="prev" />,
+        rows: 2,
+        slidesPerRow: 1,
         responsive: [
             {
                 breakpoint: 1024,
                 settings: {
-                    slidesToShow: 3,
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                    rows: 2,
                 }
             },
             {
-                breakpoint: 720,
+                breakpoint: 768,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    rows: 2,
+                }
+            },
+            {
+                breakpoint: 640,
+                settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    rows: 2,
+                    
                 }
             },
             {
                 breakpoint: 480,
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToScroll: 1,
+                    rows: 1,
                 }
             }
         ]
     };
+
+
     return (
         <>
             <section className='py-10 sm:py-16 '>
                 <div className="container">
-                    {/* <Slider   {...settings}>
-
-                    </Slider> */}
-                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-y-10 md:gap-y-12 gap-x-20'>
+                    <Slider {...settings}>
                         {
-                            products.map(productDetails => <Product productDetails={productDetails} ></Product>)
+                            products.length != 0 ?
+                                products.map(pd =>
+                                    <Product productDetails={pd} ></Product>
+                                )
+                                :
+                                <p className='text-center text-3xl mt-20'>No products Found</p>
+
                         }
-                    </div>
+                    </Slider>
                 </div>
             </section>
 
