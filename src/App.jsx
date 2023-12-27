@@ -1,13 +1,12 @@
 import './App.css'
+import Task1_slider from './pages/Task1_slider'
 
 function App() {
 
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+      <Task1_slider />
     </>
   )
 }
