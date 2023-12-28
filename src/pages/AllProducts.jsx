@@ -9,6 +9,7 @@ import Loading from '../components/loading';
 const AllProducts = () => {
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(false)
 
     //============ Loading Fake Products Here ===========//
     useEffect(() => {
@@ -23,10 +24,12 @@ const AllProducts = () => {
                 }
                 else {
                     setLoading(false);
+                    setError(true)
                     console.log("Product't not found");
                 }
             } catch (error) {
                 setLoading(false);
+                setError(true)
                 console.log(error);
             }
         })()
@@ -119,16 +122,18 @@ const AllProducts = () => {
                             <div className='relative z-10'>
                                 <Slider  {...settings}>
                                     {
-                                        products.length != 0 ?
-                                            products.map(pd =>
-                                                <Product key={pd.id} productDetails={pd} ></Product>
-                                            )
-                                            :
-                                            <p className='text-center text-3xl mt-20'>No products Found Form API</p>
+                                        products.length != 0 &&
+                                        products.map(pd =>
+                                            <Product key={pd.id} productDetails={pd} ></Product>
+                                        )
                                     }
                                 </Slider>
                                 <div className='hidden sm:block absolute top-1/2 right-0 left-0 -z-10  -translate-y-1/2 bg-[#d5d5d5] h-[1px]'></div>
                             </div>
+
+                            {
+                                error && <p className='text-xl text-center text-red-700 font-heading font-bold'>No Products Found from API</p>
+                            }
                         </div>
                 }
             </section>
