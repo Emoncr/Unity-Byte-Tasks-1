@@ -4,31 +4,41 @@ import Product from '../components/Product'
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { TfiAngleRight, TfiAngleLeft } from "react-icons/tfi";
+import Loading from '../components/loading';
 
-const Task1_slider = () => {
+const AllProducts = () => {
     const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(false)
 
     //============ Loading Fake Products Here ===========//
     useEffect(() => {
         (async () => {
-            const res = await fetch("https://fakestoreapi.com/products?limit=20");
-            if (res.ok) {
-                const products = await res.json();
-                setProducts(products)
-            }
-            else {
-                console.log("Product't not found");
+            try {
+                setLoading(true)
+                const res = await fetch("https://fakestoreapi.com/products?limit=20");
+                if (res.ok) {
+                    const products = await res.json();
+                    setLoading(false);
+                    setProducts(products)
+                }
+                else {
+                    setLoading(false);
+                    console.log("Product't not found");
+                }
+            } catch (error) {
+                setLoading(false);
+                console.log(error);
             }
         })()
     }, [])
 
 
 
-    //========= SLider Functions ===========//
+    //========= Start SLider Functions ===========//
     function SamplePrevArrow({ onClick }) {
         return (
             <div
-                className='absolute top-1/2 left-0 z-10  -translate-y-1/2 p-2 sm:p-4 rounded-full bg-whtie flex items-center justify-center cursor-pointer shadow-btnShadow hover:bg-brand duration-300 text-gray-400 hover:text-white '
+                className='absolute top-1/2 left-0 z-10   -translate-y-1/2 p-2 sm:p-4 rounded-full bg-whtie flex items-center justify-center cursor-pointer shadow-btnShadow bg-white hover:bg-brand duration-300 text-gray-400 hover:text-white '
                 onClick={onClick}
             >
                 <TfiAngleLeft className='text-lg sm:text-2xl' />
@@ -80,7 +90,7 @@ const Task1_slider = () => {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     rows: 2,
-                    
+
                 }
             },
             {
@@ -93,28 +103,38 @@ const Task1_slider = () => {
             }
         ]
     };
-
+    //========= End SLider Functions ===========//
 
     return (
         <>
             <section className='py-10 sm:py-16 '>
-                <div className="container">
-                    <Slider {...settings}>
-                        {
-                            products.length != 0 ?
-                                products.map(pd =>
-                                    <Product productDetails={pd} ></Product>
-                                )
-                                :
-                                <p className='text-center text-3xl mt-20'>No products Found</p>
-
-                        }
-                    </Slider>
-                </div>
+                {
+                    loading ?
+                        <div>
+                            <Loading />
+                        </div>
+                        :
+                        <div className="container">
+                            <h1 className='text-center text-xl md:text-4xl  font-heading text-brand font-bold mb-10 uppercase'>Task NO - 01</h1>
+                            <div className='relative z-10'>
+                                <Slider  {...settings}>
+                                    {
+                                        products.length != 0 ?
+                                            products.map(pd =>
+                                                <Product productDetails={pd} ></Product>
+                                            )
+                                            :
+                                            <p className='text-center text-3xl mt-20'>No products Found Form API</p>
+                                    }
+                                </Slider>
+                                <div className='hidden sm:block absolute top-1/2 right-0 left-0 -z-10  -translate-y-1/2 bg-gray-600 h-[1px]'></div>
+                            </div>
+                        </div>
+                }
             </section>
 
         </>
     )
 }
 
-export default Task1_slider
+export default AllProducts

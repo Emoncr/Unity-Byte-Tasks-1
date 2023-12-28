@@ -1,12 +1,11 @@
 import './App.css'
-import Task1_slider from './pages/Task1_slider'
+import AllProducts from './pages/AllProducts'
+
 
 function App() {
-
-
   return (
     <>
-      <Task1_slider />
+      <AllProducts />
     </>
   )
 }
