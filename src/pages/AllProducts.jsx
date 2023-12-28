@@ -21,6 +21,7 @@ const AllProducts = () => {
                     const products = await res.json();
                     setLoading(false);
                     setProducts(products)
+                    setError(false)
                 }
                 else {
                     setLoading(false);
@@ -132,7 +133,7 @@ const AllProducts = () => {
                             </div>
 
                             {
-                                error && <p className='text-xl text-center text-red-700 font-heading font-bold'>No Products Found from API</p>
+                                error && <p className='text-xl text-center text-red-700 font-heading font-bold mt-10'>No Products Found from API</p>
                             }
                         </div>
                 }
