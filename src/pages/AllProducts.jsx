@@ -121,13 +121,13 @@ const AllProducts = () => {
                                     {
                                         products.length != 0 ?
                                             products.map(pd =>
-                                                <Product productDetails={pd} ></Product>
+                                                <Product key={pd.id} productDetails={pd} ></Product>
                                             )
                                             :
                                             <p className='text-center text-3xl mt-20'>No products Found Form API</p>
                                     }
                                 </Slider>
-                                <div className='hidden sm:block absolute top-1/2 right-0 left-0 -z-10  -translate-y-1/2 bg-gray-600 h-[1px]'></div>
+                                <div className='hidden sm:block absolute top-1/2 right-0 left-0 -z-10  -translate-y-1/2 bg-[#d5d5d5] h-[1px]'></div>
                             </div>
                         </div>
                 }
